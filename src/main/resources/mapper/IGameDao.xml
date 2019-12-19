@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.weteam.mapper.IGameDao">
+
+    <!--配置 查询结果的列明和实体类的属性名的对应关系-->
+    <resultMap id="gameBaseMap" type="game">
+        <!--主键-->
+        <id property="id" column="id"></id>
+        <!--非主键-->
+        <result property="name" column="name"></result>
+        <result property="postTime" column="postTime"></result>
+        <result property="announce" column="announce"></result>
+        <result property="notice" column="notice"></result>
+        <result property="fileUrl" column="fileUrl"></result>
+        <result property="signFormUrl" column="signFormUrl"></result>
+    </resultMap>
+
+    <resultMap id="gameAndTagMap" type="game">
+        <!--主键-->
+        <id property="id" column="id"></id>
+        <!--非主键-->
+        <result property="name" column="name"></result>
+        <result property="postTime" column="postTime"></result>
+        <result property="announce" column="announce"></result>
+        <result property="notice" column="notice"></result>
+        <result property="fileUrl" column="fileUrl"></result>
+        <result property="signFormUrl" column="signFormUrl"></result>
+        <!--一对多级联查询-->
+        <collection property="tag" ofType="tag">
+            <id property="id" column="tagId"></id>
+            <result property="tagName" column="tagName"></result>
+            <result property="tagUrl" column="tagUrl"></result>
+        </collection>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="findAll" resultMap="gameBaseMap">
+        select * from GAME;
+    </select>
+
+    <!--查找所有比赛 & 比赛标签 总数-->
+    <select id="findCountGameWithTag" resultType="int" parameterType="java.util.Map">
+        select count(id)
+        from game g
+        left join gameTag gt on g.id = gt.gameId
+        left join tag t on t.id = gt.tagId
+        <where>
+            <if test="key != null and key !=''">
+                <bind name="key_select" value="'%'+key+'%'"></bind>
+                and name like #{key_select}
+            </if>
+        </where>
+    </select>
+
+    <!--查找所有比赛 & 比赛标签-->
+    <select id="findAllGameWithTag" resultMap="gameAndTagMap" parameterType="java.util.Map">
+        select g.*, t.id as tagId, tagName, tagUrl
+        from game g
+        left join gameTag gt on g.id = gt.gameId
+        left join tag t on t.id = gt.tagId
+        <where>
+            <if test="key != null and key !=''">
+                <bind name="key_select" value="'%'+key+'%'"></bind>
+                and name like #{key_select}
+            </if>
+        </where>
+        limit #{start},#{size}
+    </select>
+
+    <!--根据比赛id查找比赛详情-->
+    <select id="findGameById" resultMap="gameAndTagMap" parameterType="int">
+        select g.*, t.id as tagId, tagName, tagUrl
+        from game g
+        left join gameTag gt on g.id = gt.gameId
+        left join tag t on t.id = gt.tagId
+        where g.id = #{gameId}
+    </select>
+
+    <!--某用户参加的比赛总数-->
+    <select id="findCountGameByUserId" resultMap="int" parameterType="java.util.Map">
+        select count(g.id)
+        from game g, registerRecord rr, user u
+        where g.id = rr.gameId
+        and u.id = rr.userId
+        and userId = #{userId}
+    </select>
+
+    <!--某用户参加的比赛-->
+    <select id="findCountGameByUserId" resultMap="int" parameterType="java.util.Map">
+
+    </select>
+</mapper>
