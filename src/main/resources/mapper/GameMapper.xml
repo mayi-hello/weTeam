@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.weteam.dao.GameMapper" >
+  <resultMap id="BaseResultMap" type="com.weteam.entity.Game" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="poster_url" property="posterUrl" jdbcType="VARCHAR" />
+    <result column="post_time" property="postTime" jdbcType="VARCHAR" />
+    <result column="game_ddl" property="gameDdl" jdbcType="VARCHAR" />
+    <result column="announce" property="announce" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="notice" property="notice" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="sign_form_url" property="signFormUrl" jdbcType="VARCHAR" />
+    <result column="team_size" property="teamSize" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from game
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weteam.entity.Game" >
+    insert into game (id, `name`, poster_url, 
+      post_time, game_ddl, announce, 
+      `source`, notice, file_url, 
+      sign_form_url, team_size)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{posterUrl,jdbcType=VARCHAR}, 
+      #{postTime,jdbcType=VARCHAR}, #{gameDdl,jdbcType=VARCHAR}, #{announce,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, #{fileUrl,jdbcType=VARCHAR}, 
+      #{signFormUrl,jdbcType=VARCHAR}, #{teamSize,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weteam.entity.Game" >
+    update game
+    set `name` = #{name,jdbcType=VARCHAR},
+      poster_url = #{posterUrl,jdbcType=VARCHAR},
+      post_time = #{postTime,jdbcType=VARCHAR},
+      game_ddl = #{gameDdl,jdbcType=VARCHAR},
+      announce = #{announce,jdbcType=VARCHAR},
+      `source` = #{source,jdbcType=VARCHAR},
+      notice = #{notice,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      sign_form_url = #{signFormUrl,jdbcType=VARCHAR},
+      team_size = #{teamSize,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, `name`, poster_url, post_time, game_ddl, announce, `source`, notice, file_url, 
+    sign_form_url, team_size
+    from game
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, `name`, poster_url, post_time, game_ddl, announce, `source`, notice, file_url, 
+    sign_form_url, team_size
+    from game
+  </select>
+</mapper>

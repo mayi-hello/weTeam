@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.weteam.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.weteam.entity.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="academy" property="academy" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="personInfo" property="personinfo" jdbcType="VARCHAR" />
+    <result column="avatar_url" property="avatarUrl" jdbcType="VARCHAR" />
+    <result column="login_last_time" property="loginLastTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weteam.entity.User" >
+    insert into user (id, `name`, userName, 
+      `password`, open_id, gender, 
+      grade, academy, phone, 
+      email, personInfo, avatar_url, 
+      login_last_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
+      #{grade,jdbcType=VARCHAR}, #{academy,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{personinfo,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, 
+      #{loginLastTime,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weteam.entity.User" >
+    update user
+    set `name` = #{name,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      grade = #{grade,jdbcType=VARCHAR},
+      academy = #{academy,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      personInfo = #{personinfo,jdbcType=VARCHAR},
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      login_last_time = #{loginLastTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, `name`, userName, `password`, open_id, gender, grade, academy, phone, 
+    email, personInfo, avatar_url, login_last_time
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, `name`, userName, `password`, open_id, gender, grade, academy, phone, 
+    email, personInfo, avatar_url, login_last_time
+    from user
+  </select>
+</mapper>

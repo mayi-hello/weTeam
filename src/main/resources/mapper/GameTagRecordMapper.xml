@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.weteam.dao.GameTagRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.weteam.entity.GameTagRecord" >
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="tag_id" property="tagId" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.weteam.entity.GameTagRecord" >
+    insert into game_tag_record (game_id, tag_id)
+    values (#{gameId,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select game_id, tag_id
+    from game_tag_record
+  </select>
+</mapper>

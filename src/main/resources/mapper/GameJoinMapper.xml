@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.weteam.dao.GameJoinMapper" >
+  <resultMap id="BaseResultMap" type="com.weteam.entity.GameJoin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
+    <result column="game_team_id" property="gameTeamId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from game_join
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.weteam.entity.GameJoin" >
+    insert into game_join (id, user_id, game_id, 
+      game_team_id)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{gameId,jdbcType=INTEGER}, 
+      #{gameTeamId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.weteam.entity.GameJoin" >
+    update game_join
+    set user_id = #{userId,jdbcType=INTEGER},
+      game_id = #{gameId,jdbcType=INTEGER},
+      game_team_id = #{gameTeamId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, user_id, game_id, game_team_id
+    from game_join
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, game_id, game_team_id
+    from game_join
+  </select>
+</mapper>
