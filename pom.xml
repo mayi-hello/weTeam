@@ -124,6 +124,24 @@
                         <artifactId>mybatis-generator-core</artifactId>
                         <version>1.3.2</version>
                     </dependency>
+                    <!-- http请求工具包依赖 -->
+                    <dependency>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpclient</artifactId>
+                        <version>4.5.2</version>
+                    </dependency>
+                    <!--jsonObject需要的jar包-->
+                    <dependency>
+                        <groupId>net.sf.json-lib</groupId>
+                        <artifactId>json-lib</artifactId>
+                        <version>2.4</version>
+                    </dependency>
+                    <!--工具类wxutils的JSONObject.parseObject需要-->
+                    <dependency>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                    <version>1.2.56</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <plugin>
