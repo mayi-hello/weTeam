@@ -2,18 +2,23 @@ package com.weteam.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @JsonIgnoreProperties("password")
+@Entity
+@Table(name = "user")
 public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
-
+    @Column(name = "userName")
     private String username;
 
     private String password;
-
+    @Column(name = "open_id")
     private String openId;
 
     private Byte gender;
@@ -27,9 +32,9 @@ public class User implements Serializable {
     private String email;
 
     private String personinfo;
-
+    @Column(name = "avatar_url")
     private String avatarUrl;
-
+    @Column(name = "login_last_time")
     private String loginLastTime;
 
     private static final long serialVersionUID = 1L;
