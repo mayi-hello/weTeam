@@ -1,11 +1,12 @@
 package com.weteam.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Message implements Serializable {
     private Integer id;
 
-    private String createTime;
+    private Date createTime;
 
     private String title;
 
@@ -25,12 +26,12 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime == null ? null : createTime.trim();
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getTitle() {

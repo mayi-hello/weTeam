@@ -1,7 +1,10 @@
 package com.weteam.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
+@JsonIgnoreProperties("password")
 public class User implements Serializable {
     private Integer id;
 
