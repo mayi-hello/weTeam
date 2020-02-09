@@ -14,7 +14,7 @@ public class SessionHelper {
     @Resource
     UserRepository userRepository;
 
-    public void login(HttpSession session, String userName, String password) {
+    public User login(HttpSession session, String userName, String password) {
         if (session.getAttribute("userId") != null) {
             throw new BasicException("已经登录");
         }
@@ -23,6 +23,7 @@ public class SessionHelper {
             throw new BasicException("用户名或密码错误");
         }
         session.setAttribute("userId", user.getId());
+        return user;
     }
 
     public void logout(HttpSession session) {

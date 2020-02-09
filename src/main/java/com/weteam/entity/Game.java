@@ -1,6 +1,7 @@
 package com.weteam.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Game implements Serializable {
     private Integer id;
@@ -9,7 +10,7 @@ public class Game implements Serializable {
 
     private String posterUrl;
 
-    private String postTime;
+    private Date postTime;
 
     private String gameDdl;
 
@@ -51,12 +52,12 @@ public class Game implements Serializable {
         this.posterUrl = posterUrl == null ? null : posterUrl.trim();
     }
 
-    public String getPostTime() {
+    public Date getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(String postTime) {
-        this.postTime = postTime == null ? null : postTime.trim();
+    public void setPostTime(Date postTime) {
+        this.postTime = postTime;
     }
 
     public String getGameDdl() {

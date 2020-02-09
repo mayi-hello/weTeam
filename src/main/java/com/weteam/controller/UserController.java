@@ -6,10 +6,7 @@ import com.weteam.utils.BasicResponse;
 import com.weteam.utils.SessionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +24,7 @@ public class UserController {
     @Resource
     SessionHelper sessionHelper;
 
-    @RequestMapping("/user/login")
+    @GetMapping("/user/login")
     private String getLogin(HttpServletRequest request){
         HttpSession session = request.getSession(false);
         if (session == null) {
