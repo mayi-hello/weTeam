@@ -28,7 +28,6 @@ public class UserApi {
 
     @Resource
     SessionHelper sessionHelper;
-
     @Resource
     UserRepository userRepository;
     @Resource
@@ -56,7 +55,7 @@ public class UserApi {
                                         @RequestParam(defaultValue = "0") Integer page,
                                         @RequestParam(defaultValue = "10") Integer size){
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createTime"));
-        List<Message> messages = messageRepository.findByUserId(id, pageable).getContent();
+        List<Message> messages = messageRepository.findByReceiverId(id, pageable).getContent();
         return ResponseEntity.ok(BasicResponse.ok().data(messages));
     }
 
