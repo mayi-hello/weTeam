@@ -26,7 +26,7 @@ public class GameApi {
     public ResponseEntity findAllGame(@PathVariable String source,
                                        @RequestParam(defaultValue = "0") Integer page,
                                        @RequestParam(defaultValue = "10") Integer size){
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createTime"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"postTime"));
         List<Game> games = gameRepository.findBySource(source, pageable).getContent();
         return ResponseEntity.ok(BasicResponse.ok().data(games));
     }
@@ -53,6 +53,8 @@ public class GameApi {
     @PostMapping("/info")
     public ResponseEntity getInfo(@RequestParam Integer id){
         Game game = gameRepository.findById(id).orElse(null);
+        if(game == null)
+            return ResponseEntity.ok().body(BasicResponse.ok().data("nothing"));
         return ResponseEntity.ok().body(BasicResponse.ok().data(game));
     }
 }
