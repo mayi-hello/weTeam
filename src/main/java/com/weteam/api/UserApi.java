@@ -69,6 +69,8 @@ public class UserApi {
             if(game!=null)
                 games.add(game);
         }
+        if (games.size() == 0)
+            return ResponseEntity.ok(BasicResponse.ok().data("nothing"));
         return ResponseEntity.ok(BasicResponse.ok().data(games));
     }
 }
