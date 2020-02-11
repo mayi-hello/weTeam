@@ -1,13 +1,7 @@
 package com.weteam.api;
 
-import com.weteam.entity.Game;
-import com.weteam.entity.GameJoin;
-import com.weteam.entity.Message;
-import com.weteam.entity.User;
-import com.weteam.repository.GameJoinRepository;
-import com.weteam.repository.GameRepository;
-import com.weteam.repository.MessageRepository;
-import com.weteam.repository.UserRepository;
+import com.weteam.entity.*;
+import com.weteam.repository.*;
 import com.weteam.utils.BasicResponse;
 import com.weteam.utils.SessionHelper;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user/api")
@@ -36,6 +32,8 @@ public class UserApi {
     GameJoinRepository gameJoinRepository;
     @Resource
     GameRepository gameRepository;
+    @Resource
+    AwardRepository awardRepository;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestParam("username") String username,
@@ -62,14 +60,56 @@ public class UserApi {
     @PostMapping("games/{id}")
     public ResponseEntity findGames(@PathVariable Integer id){
         List<GameJoin> gameJoins = gameJoinRepository.findByUserId(id);
+        List<Integer> teamIds = new ArrayList<>();
         List<Game> games = new ArrayList<>();
         for(GameJoin gameJoin: gameJoins){
             Game game = gameRepository.findById(gameJoin.getGameId()).orElse(null);
-            if(game!=null)
+            if(game!=null) {
                 games.add(game);
+                teamIds.add(gameJoin.getGameTeamId());
+            }
         }
+        games.sort(Comparator.comparing(Game::getPostTime));
         if (games.size() == 0)
             return ResponseEntity.ok(BasicResponse.ok().data("nothing"));
-        return ResponseEntity.ok(BasicResponse.ok().data(games));
+        return ResponseEntity.ok(BasicResponse.ok().data(games).data(teamIds));
+    }
+
+    @PostMapping("award")
+    public ResponseEntity getAward(@RequestParam Integer id){
+        List<Award> awards = awardRepository.findByUserId(id);
+        if(awards.size() == 0)
+            return ResponseEntity.ok(BasicResponse.ok().data("nothing"));
+        return ResponseEntity.ok(BasicResponse.ok().data(awards));
+    }
+
+    @PostMapping("info/modification")
+    public ResponseEntity modifyInfo(@RequestParam Integer id,
+                                     @RequestParam Map<String,Object> params){
+        User user = userRepository.findById(id).orElse(null);
+        if(user!=null)
+            if(params.size()!=0)
+                for(String key: params.keySet()){
+                    try{
+                    setFieldValueByFieldName(key,params.get(key),User.class,Object.class);
+                    }catch (Exception e){
+                        return ResponseEntity.ok(BasicResponse.fail());
+                    }
+                }
+        return ResponseEntity.ok(BasicResponse.ok());
+    }
+
+    public static void setFieldValueByFieldName(String fieldName,Object fieldValue,Object object,Class<?>... parameterTypes) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            String name = fields[i].getName();
+            if (name.equals(fieldName)) {
+                field.setAccessible(true);
+                String methname = name.substring(0, 1).toUpperCase() + name.substring(1);
+                Method m = object.getClass().getMethod("set" + methname, parameterTypes);
+                m.invoke(object, fieldValue);
+            }
+        }
     }
 }
